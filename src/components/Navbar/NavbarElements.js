@@ -2,8 +2,9 @@ import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
 
 export const Nav = styled.div`
+  background: #fff;
   height: 80px;
-  /* margin-top: -80px; */
+  margin-top: -80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,6 +74,7 @@ export const NavLinks = styled(Link)`
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
+  color: #000;
 
   &:active {
     border-bottom: 3px solid #f1356d;
