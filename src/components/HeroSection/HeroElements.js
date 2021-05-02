@@ -27,7 +27,7 @@ export const HeroRow = styled.div`
 export const HeroLeftContent = styled.div`
   margin-bottom: 15px;
   padding: 0 10px;
-  grid-area: col2;
+  grid-area: col1;
 `;
 
 export const HeroH1 = styled.h1`
@@ -55,7 +55,7 @@ export const ArrowRight = styled(MdKeyboardArrowRight)`
 export const HeroRightContent = styled.div`
   margin-bottom: 15px;
   padding: 0 15px;
-  grid-area: col1;
+  grid-area: col2;
 `;
 
 export const ImgWrap = styled.div`

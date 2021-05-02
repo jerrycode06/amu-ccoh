@@ -22,7 +22,7 @@ const HeroSection = () => {
 
   return (
     <HeroContainer>
-      <HeroRow imgStart="false">
+      <HeroRow imgStart={false}>
         <HeroLeftContent>
           <HeroH1>
             One Place to get information of all health related updates and
