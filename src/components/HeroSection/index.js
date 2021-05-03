@@ -34,6 +34,7 @@ const HeroSection = () => {
               onMouseEnter={onHover}
               onMouseLeave={onHover}
               primary="true"
+              lgwidth="true"
             >
               Get Started {hover ? <ArrowForward /> : <ArrowRight />}
             </Button>

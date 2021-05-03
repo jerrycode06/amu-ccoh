@@ -11,7 +11,7 @@ export const Button = styled(Link)`
   font-weight: 700;
   outline: none;
   border: 2px solid #f1356d;
-  width: 35%;
+  width: ${({ lgwidth }) => (lgwidth ? "35%" : "25%")};
   cursor: pointer;
   display: flex;
   justify-content: center;
