@@ -7,6 +7,38 @@
   font-family: Manrope, sans-serif;
 }
 
-.App {
+.listgroup {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-group-item {
+  margin-bottom: 25px;
+}
+
+.listgroup h1 {
+  margin-bottom: 40px;
   text-align: center;
+  font-size: 45px;
+}
+
+.listgroup h2 {
+  font-size: 30px;
+}
+
+.listgroup p {
+  margin-bottom: 10px;
+}
+
+.listgroup a {
+  margin-bottom: 20px;
+  padding: 5px;
+  text-decoration: none;
+  border: 2px solid #f1356d;
+  border-radius: 5px;
+  background-color: #f1356d;
+  color: white;
 }
