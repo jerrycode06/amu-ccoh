@@ -6,12 +6,12 @@ export const boxData = [
   },
   {
     id: 2,
-    name: "beds",
+    name: "hospitals",
     icon: "2.svg",
   },
   {
     id: 3,
-    name: "medicines",
+    name: "meds",
     icon: "10.svg",
   },
 ];

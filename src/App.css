@@ -42,3 +42,8 @@
   background-color: #f1356d;
   color: white;
 }
+
+.cardgroup h1 {
+  text-align: center;
+  margin: 50px 0;
+}

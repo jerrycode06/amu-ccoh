@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   SuppliesInfoContainer,
   SuppliesH1,
@@ -13,10 +13,12 @@ import {
 } from "./SuppliesElements";
 import { Button } from "../ButtonElements";
 import { boxData } from "./boxData";
+import { SelectedContext } from "../../context/selected";
 
 const SuppliesInfo = () => {
   const [hover, setHover] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [selectedArray, setSelectedArray] = useContext(SelectedContext);
 
   const onHover = () => {
     setHover(!hover);
@@ -24,7 +26,6 @@ const SuppliesInfo = () => {
 
   const isSelected = (name) => {
     let el = selected.filter((boxName) => boxName === name);
-    console.log(el.length !== 0);
     return el.length !== 0;
   };
 
@@ -37,6 +38,7 @@ const SuppliesInfo = () => {
       newSelected.push(el[0].name);
     }
     setSelected(newSelected);
+    setSelectedArray(newSelected);
   };
 
   return (
@@ -57,7 +59,12 @@ const SuppliesInfo = () => {
         ))}
       </SuppliesWrapper>
       <SuppliesBtnWrapper>
-        <Button primary="true" onMouseEnter={onHover} onMouseLeave={onHover}>
+        <Button
+          to="/supplies"
+          primary="true"
+          onMouseEnter={onHover}
+          onMouseLeave={onHover}
+        >
           Next {hover ? <ArrowForward /> : <ArrowRight />}
         </Button>
       </SuppliesBtnWrapper>
