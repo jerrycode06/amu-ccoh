@@ -43,7 +43,21 @@
   color: white;
 }
 
+.headerCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
 .cardgroup h1 {
   text-align: center;
-  margin: 50px 0;
+  margin: 20px 0;
+}
+
+.loaders {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

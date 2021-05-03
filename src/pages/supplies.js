@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { SelectedContext } from "./../context/selected";
-import { Card, Badge } from "react-bootstrap";
+import { Card, Badge, Spinner, Alert, Button } from "react-bootstrap";
 
 const Supplies = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +10,8 @@ const Supplies = () => {
   const [oxygen, setOxygen] = useState([]);
   const [beds, setBeds] = useState([]);
   const [meds, setMeds] = useState([]);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -25,8 +27,21 @@ const Supplies = () => {
         await fetch(
           `https://amuccoh.pythonanywhere.com/api/v1/oxygen/?format=json`
         )
-          .then((res) => res.json())
-          .then((data) => setOxygen(data));
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Sorry! Could not fetch the data from resource");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            setOxygen(data);
+            setIsPending(false);
+            setError(null);
+          })
+          .catch((err) => {
+            setIsPending(false);
+            setError(err.message);
+          });
       }
 
       if (
@@ -37,8 +52,21 @@ const Supplies = () => {
         await fetch(
           `https://amuccoh.pythonanywhere.com/api/v1/hospitals/?format=json`
         )
-          .then((res) => res.json())
-          .then((data) => setBeds(data));
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Sorry! Could not fetch the data from resource");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            setBeds(data);
+            setIsPending(false);
+            setError(null);
+          })
+          .catch((err) => {
+            setIsPending(false);
+            setError(err.message);
+          });
       }
 
       if (
@@ -49,13 +77,69 @@ const Supplies = () => {
         await fetch(
           `https://amuccoh.pythonanywhere.com/api/v1/meds/?format=json`
         )
-          .then((res) => res.json())
-          .then((data) => setMeds(data));
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Sorry! Could not fetch the data from resource");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            setMeds(data);
+            setIsPending(false);
+            setError(null);
+          })
+          .catch((err) => {
+            setIsPending(false);
+            setError(err.message);
+          });
       }
     }
 
     fetchData();
   }, [selectedArray]);
+
+  const handleAvailable = (slug) => {
+    if (slug === "beds") {
+      fetch(
+        `https://amuccoh.pythonanywhere.com/api/v1/hospitals-available/?format=json`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Sorry! Could not fetch the data from resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setBeds(data);
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
+    if (slug === "oxygen") {
+      fetch(
+        `https://amuccoh.pythonanywhere.com/api/v1/oxygen-available/?format=json`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Sorry! Could not fetch the data from resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setOxygen(data);
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
+  };
 
   function getBadgeVariant(value) {
     if (value === "Yes") return "success";
@@ -68,9 +152,18 @@ const Supplies = () => {
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
       <Navbar toggle={toggle} op={true} />
+      <div className="loaders">
+        {isPending && <Spinner animation="border" variant="secondary" />}
+        {error && <Alert variant="danger">{error}</Alert>}
+      </div>
       {oxygen.length !== 0 && (
         <div className="cardgroup">
-          <h1>Oxygen Availability</h1>
+          <div className="headerCard">
+            <h1>Oxygen Availability</h1>
+            <Button onClick={() => handleAvailable("oxygen")} variant="success">
+              Show Available
+            </Button>
+          </div>
           <div className="card-group" style={{ margin: "0 50px" }}>
             {oxygen.map((data) => (
               <Card style={{ width: "18rem" }}>
@@ -80,6 +173,11 @@ const Supplies = () => {
                     {data.address}
                   </Card.Subtitle>
                   <Card.Text>
+                    Availability -{" "}
+                    <Badge variant={getBadgeVariant(data.availablity)}>
+                      {data.availablity}
+                    </Badge>{" "}
+                    <br />
                     Filling/New Purchase -{" "}
                     <Badge variant={getBadgeVariant(data.type_is)}>
                       {data.type_is}
@@ -99,7 +197,12 @@ const Supplies = () => {
 
       {beds.length !== 0 && (
         <div className="cardgroup">
-          <h1>Hospital Availability</h1>
+          <div className="headerCard">
+            <h1>Hospitals Availability</h1>
+            <Button onClick={() => handleAvailable("beds")} variant="success">
+              Show Available
+            </Button>
+          </div>
           <div className="card-group" style={{ margin: "0 50px" }}>
             {beds.map((data) => (
               <Card style={{ width: "18rem" }}>
@@ -128,7 +231,9 @@ const Supplies = () => {
 
       {meds.length !== 0 && (
         <div className="cardgroup">
-          <h1>Pharmacies Availability</h1>
+          <div className="headerCard">
+            <h1>Pharmacies Availability</h1>
+          </div>
           <div className="card-group" style={{ margin: "0 50px" }}>
             {meds.map((data) => (
               <Card style={{ width: "18rem" }}>
