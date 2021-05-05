@@ -67,4 +67,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.oxygen-actions {
+  display: flex;
+}
+
+.oxygen-actions button {
+  margin-right: 30px;
 }

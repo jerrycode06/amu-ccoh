@@ -35,6 +35,10 @@ export const HeroH1 = styled.h1`
   font-weight: 700;
   margin-top: 130px;
   margin-bottom: 40px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+  }
 `;
 
 export const HeroBtnWrapper = styled.div`

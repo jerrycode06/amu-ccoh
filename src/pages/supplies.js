@@ -2,11 +2,14 @@ import React, { useContext, useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { SelectedContext } from "./../context/selected";
-import { Card, Badge, Spinner, Alert, Button } from "react-bootstrap";
+import { Card, Badge, Spinner, Alert, Button, Dropdown } from "react-bootstrap";
 
 const Supplies = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedArray] = useContext(SelectedContext);
+  const [selectedArray, setSelectedArray] = useContext(SelectedContext);
+  const [arrayLoc] = useState(
+    JSON.parse(localStorage.getItem("selectedArray"))
+  );
   const [oxygen, setOxygen] = useState([]);
   const [beds, setBeds] = useState([]);
   const [meds, setMeds] = useState([]);
@@ -19,6 +22,14 @@ const Supplies = () => {
 
   useEffect(() => {
     async function fetchData() {
+      if (selectedArray.length !== 0) {
+        localStorage.setItem("selectedArray", JSON.stringify(selectedArray));
+      }
+
+      if (arrayLoc !== null) {
+        setSelectedArray(arrayLoc);
+      }
+
       if (
         selectedArray[0] === "oxygen" ||
         selectedArray[1] === "oxygen" ||
@@ -96,7 +107,14 @@ const Supplies = () => {
     }
 
     fetchData();
-  }, [selectedArray]);
+    return () => {
+      localStorage.removeItem("selectedArray");
+    };
+  }, [selectedArray, arrayLoc, setSelectedArray]);
+
+  function handleReset() {
+    setSelectedArray(JSON.parse(localStorage.getItem("selectedArray")));
+  }
 
   const handleAvailable = (slug) => {
     if (slug === "beds") {
@@ -139,12 +157,53 @@ const Supplies = () => {
           setError(err.message);
         });
     }
+
+    if (slug === "fill") {
+      fetch(
+        `https://amuccoh.pythonanywhere.com/api/v1/oxygen/fill/?format=json`
+      )
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Sorry! Could not fetch the data from resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setOxygen(data);
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
+
+    if (slug === "sell") {
+      fetch(`https://amuccoh.pythonanywhere.com/api/v1/oxygen/buy/?format=json`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Sorry! Could not fetch the data from resource");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setOxygen(data);
+          setIsPending(false);
+          setError(null);
+        })
+        .catch((err) => {
+          setIsPending(false);
+          setError(err.message);
+        });
+    }
   };
 
   function getBadgeVariant(value) {
     if (value === "Yes") return "success";
     if (value === "Filling") return "primary";
     if (value === "Both") return "success";
+    if (value === "Seller") return "warning";
     return "danger";
   }
 
@@ -155,18 +214,41 @@ const Supplies = () => {
       <div className="loaders">
         {isPending && <Spinner animation="border" variant="secondary" />}
         {error && <Alert variant="danger">{error}</Alert>}
+        <Button onClick={handleReset} variant="warning">
+          Reset
+        </Button>
       </div>
       {oxygen.length !== 0 && (
         <div className="cardgroup">
           <div className="headerCard">
             <h1>Oxygen Availability</h1>
-            <Button onClick={() => handleAvailable("oxygen")} variant="success">
-              Show Available
-            </Button>
+            <div className="oxygen-actions">
+              <Button
+                onClick={() => handleAvailable("oxygen")}
+                variant="success"
+              >
+                Show Available
+              </Button>
+              <Dropdown>
+                <Dropdown.Toggle variant="info" id="dropdown-basic">
+                  Filter
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => handleAvailable("fill")}>
+                    Filling
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleAvailable("sell")}>
+                    Seller
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleReset}>Both</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </div>
-          <div className="card-group" style={{ margin: "0 50px" }}>
-            {oxygen.map((data) => (
-              <Card style={{ width: "18rem" }}>
+          <div className="row" style={{ margin: "0 50px" }}>
+            {oxygen.map((data, index) => (
+              <Card style={{ width: "18rem" }} key={index} className="col-sm-3">
                 <Card.Body>
                   <Card.Title>{data.name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
@@ -203,9 +285,9 @@ const Supplies = () => {
               Show Available
             </Button>
           </div>
-          <div className="card-group" style={{ margin: "0 50px" }}>
-            {beds.map((data) => (
-              <Card style={{ width: "18rem" }}>
+          <div className="row" style={{ margin: "0 50px" }}>
+            {beds.map((data, index) => (
+              <Card style={{ width: "18rem" }} key={index} className="col-sm-3">
                 <Card.Body>
                   <Card.Title>{data.name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
@@ -234,9 +316,9 @@ const Supplies = () => {
           <div className="headerCard">
             <h1>Pharmacies Availability</h1>
           </div>
-          <div className="card-group" style={{ margin: "0 50px" }}>
-            {meds.map((data) => (
-              <Card style={{ width: "18rem" }}>
+          <div className="row" style={{ margin: "0 50px" }}>
+            {meds.map((data, index) => (
+              <Card style={{ width: "18rem" }} key={index} className="col-sm-3">
                 <Card.Body>
                   <Card.Title>{data.name}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
