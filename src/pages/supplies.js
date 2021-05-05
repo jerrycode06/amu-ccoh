@@ -207,6 +207,15 @@ const Supplies = () => {
     return "danger";
   }
 
+  function handleTags(tags) {
+    if (typeof tags === "string") return tags;
+    if (tags.length === 0) return "No Tags available";
+    return `${tags[0]} ${tags[1]}`;
+  }
+
+  function getDate(date) {
+    return new Date(date).toDateString();
+  }
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
@@ -265,7 +274,10 @@ const Supplies = () => {
                       {data.type_is}
                     </Badge>{" "}
                     <br />
-                    Last Updated - {data.last_updated}
+                    <strong>Last Updated</strong> - {getDate(data.last_updated)}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Remarks-</strong> {data.remarks}
                   </Card.Text>
                   <Card.Link>{data.contact}</Card.Link>
                   <br />
@@ -299,7 +311,13 @@ const Supplies = () => {
                       {data.availablity}
                     </Badge>{" "}
                     <br />
-                    Contains - {data.tags[0]} &nbsp; {data.tags[1]}
+                    <strong>Last Updated</strong> - {getDate(data.last_updated)}
+                    <br />
+                    <strong>Tags</strong> -
+                    <Badge variant="info">{handleTags(data.tags)}</Badge>{" "}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Remarks-</strong> {data.remarks}
                   </Card.Text>
                   <Card.Link>{data.contact}</Card.Link>
                   <br />
@@ -330,11 +348,17 @@ const Supplies = () => {
                       {data.availablity}
                     </Badge>{" "}
                     <br />
-                    Medicines Available -{" "}
-                    <strong>
-                      {" "}
-                      {data.tags[0]} &nbsp; {data.tags[1]}{" "}
-                    </strong>
+                    <strong>Last Updated</strong> - {getDate(data.last_updated)}
+                    <br />
+                    <strong>Tags</strong> -{" "}
+                    {data.tags.map((tag) => (
+                      <>
+                        <Badge variant="info">{tag}</Badge> <span>&nbsp;</span>
+                      </>
+                    ))}{" "}
+                  </Card.Text>
+                  <Card.Text>
+                    <strong>Remarks-</strong> {data.remarks}
                   </Card.Text>
                   <Card.Link>{data.contact}</Card.Link>
                   <br />

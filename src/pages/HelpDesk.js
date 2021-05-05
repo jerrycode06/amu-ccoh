@@ -37,6 +37,10 @@ const HelpDesk = () => {
     fetchUpdates();
   }, []);
 
+  function getDate(date) {
+    return new Date(date).toDateString();
+  }
+
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
@@ -51,6 +55,9 @@ const HelpDesk = () => {
               <ListGroup.Item key={index}>
                 <h2>{update.title}</h2>
                 <p>{update.remarks}</p>
+                <div style={{ margin: "10px 0" }}>
+                  <strong>Last Updated</strong> - {getDate(update.last_updated)}
+                </div>
                 <a href={`${update.link}`} target="_blank" rel="noreferrer">
                   Know More
                 </a>
