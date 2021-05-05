@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "../ButtonElements";
+import { ButtonR } from "../ButtonElements";
 import {
   HelpDeskContainer,
   HelpDeskWrapper,
@@ -13,9 +13,9 @@ const HelpDesk = () => {
       <HelpDeskWrapper>
         <HelpDeskH1>University Help Desk</HelpDeskH1>
         <BtnWrapper>
-          <Button primary="true" lgwidth="true" to="/helpdesk">
+          <ButtonR primary="true" lgwidth="true" to="/helpdesk">
             Click Here
-          </Button>
+          </ButtonR>
         </BtnWrapper>
       </HelpDeskWrapper>
     </HelpDeskContainer>

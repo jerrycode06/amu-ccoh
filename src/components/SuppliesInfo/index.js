@@ -11,7 +11,7 @@ import {
   ArrowForward,
   ArrowRight,
 } from "./SuppliesElements";
-import { Button } from "../ButtonElements";
+import { ButtonR } from "../ButtonElements";
 import { boxData } from "./boxData";
 import { SelectedContext } from "../../context/selected";
 
@@ -42,7 +42,7 @@ const SuppliesInfo = () => {
   };
 
   return (
-    <SuppliesInfoContainer>
+    <SuppliesInfoContainer id="supplies">
       <SuppliesH1>What do you want?</SuppliesH1>
       <SuppliesWrapper>
         {boxData.map((box) => (
@@ -59,14 +59,14 @@ const SuppliesInfo = () => {
         ))}
       </SuppliesWrapper>
       <SuppliesBtnWrapper>
-        <Button
+        <ButtonR
           to="/supplies"
           primary="true"
           onMouseEnter={onHover}
           onMouseLeave={onHover}
         >
           Next {hover ? <ArrowForward /> : <ArrowRight />}
-        </Button>
+        </ButtonR>
       </SuppliesBtnWrapper>
     </SuppliesInfoContainer>
   );

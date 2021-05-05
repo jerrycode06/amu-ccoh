@@ -11,7 +11,7 @@ import {
   ImgWrap,
   Image,
 } from "./HeroElements";
-import { Button } from "../ButtonElements";
+import { ButtonS } from "../ButtonElements";
 import hospitalBed from "../../images/health-hospital-bed.svg";
 
 const HeroSection = () => {
@@ -29,15 +29,20 @@ const HeroSection = () => {
             resources.
           </HeroH1>
           <HeroBtnWrapper>
-            <Button
-              to="/getinfo"
+            <ButtonS
+              to="supplies"
+              smooth={true}
+              duration={500}
+              spy={true}
+              exact="true"
+              offset={-80}
               onMouseEnter={onHover}
               onMouseLeave={onHover}
               primary="true"
               lgwidth="true"
             >
               Get Started {hover ? <ArrowForward /> : <ArrowRight />}
-            </Button>
+            </ButtonS>
           </HeroBtnWrapper>
         </HeroLeftContent>
         <HeroRightContent>
