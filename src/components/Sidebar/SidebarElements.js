@@ -51,6 +51,7 @@ export const SidebarLink = styled(Link)`
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
+  font-weight: 700;
   text-decoration: none;
   list-style: none;
   transition: 0.2s ease-in-out;
@@ -58,7 +59,8 @@ export const SidebarLink = styled(Link)`
   cursor: pointer;
 
   &:hover {
-    color: #000;
+    color: #1f2937;
     transition: 0.2s ease-in-out;
+    text-decoration: none;
   }
 `;

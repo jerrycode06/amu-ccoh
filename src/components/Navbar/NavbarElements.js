@@ -70,13 +70,22 @@ export const NavItem = styled.li`
 export const NavLinks = styled(Link)`
   display: flex;
   align-items: center;
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 700;
   text-decoration: none;
   padding: 0 1rem;
   height: 100%;
   cursor: pointer;
   color: #000;
+  transition: 0.3s ease-in-out;
 
   &:active {
     border-bottom: 3px solid #f1356d;
+  }
+
+  &:hover {
+    text-decoration: none;
+    color: #f1356d;
   }
 `;
