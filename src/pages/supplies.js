@@ -216,6 +216,7 @@ const Supplies = () => {
   function getDate(date) {
     return new Date(date).toDateString();
   }
+
   return (
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
