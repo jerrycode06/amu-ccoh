@@ -20,6 +20,8 @@ You will also see any lint errors in the console.
 
 Data is coming from api - https://amuccoh.pythonanywhere.com/api/v1/ which is made in Django Rest Framework which has endpoints `/oxygen`, `/hospitals` , `/meds`. We can add data from the admin panel - https://amuccoh.pythonanywhere.com
 
+**You can find repository of API** - [AMU-CCOH-SERVER](https://github.com/farazkhanfk7/amu-ccoh-server)
+
 # Screenshots
 
 ![Screenshot1](./public/images/shot1.png)
